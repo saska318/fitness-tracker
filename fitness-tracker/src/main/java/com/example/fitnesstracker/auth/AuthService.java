@@ -15,10 +15,16 @@ public class AuthService {
     private final JwtService jwt;
 
     public String register(String email, String password) {
+
+        if (repo.findByEmail(email).isPresent()) {
+            throw new RuntimeException("User already exists");
+        }
+
         AppUser user = new AppUser();
         user.setEmail(email);
         user.setPassword(encoder.encode(password));
         repo.save(user);
+
         return jwt.generate(email);
     }
 
