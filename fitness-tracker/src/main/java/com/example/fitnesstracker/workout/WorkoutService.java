@@ -21,6 +21,7 @@ public class WorkoutService {
         Workout w = new Workout();
         w.setUser(user);
         w.setType(request.type());
+        w.setCalories(request.calories());
         w.setDurationMinutes(request.durationMinutes());
         w.setIntensity(request.intensity());
         w.setFeeling(request.feeling());

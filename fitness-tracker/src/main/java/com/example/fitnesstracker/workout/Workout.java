@@ -24,6 +24,8 @@ public class Workout {
     @Column(nullable = false)
     private WorkoutType type;
 
+    private int calories;
+
     private int durationMinutes;
 
     private int intensity;
