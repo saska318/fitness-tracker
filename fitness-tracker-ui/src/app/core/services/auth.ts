@@ -28,8 +28,8 @@ export class Auth {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  logout() {
-    localStorage.removeItem(this.TOKEN_KEY);
+  logout(): void {
+    localStorage.removeItem('token');
   }
 
   isLoggedIn(): boolean {
