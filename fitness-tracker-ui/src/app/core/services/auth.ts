@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs';
+import {LoginRequest} from '../models/login-request.model';
 
 @Injectable({ providedIn: 'root' })
 export class Auth {
 
   private base = 'http://localhost:8090/api/auth';
-  private TOKEN_KEY = 'fitness_token';
+  private TOKEN_KEY = 'token';
 
   constructor(private http: HttpClient) {}
 
-  login(data: any) {
-    return this.http.post(this.base + '/login', data)
-      .pipe(tap((token: any) => this.saveToken(token)));
+  login(data: LoginRequest) {
+    return this.http.post<{ token: string }>(this.base + '/login', data);
   }
 
   register(data: any) {
     return this.http.post(this.base + '/register', data)
-      .pipe(tap((token: any) => this.saveToken(token)));
+      .pipe(tap((res: any) => this.saveToken(res.token)));
   }
 
   saveToken(token: string) {

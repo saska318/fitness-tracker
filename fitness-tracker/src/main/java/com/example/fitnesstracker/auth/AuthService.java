@@ -3,6 +3,9 @@ package com.example.fitnesstracker.auth;
 import com.example.fitnesstracker.user.AppUser;
 import com.example.fitnesstracker.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ public class AuthService {
     private final UserRepository repo;
     private final PasswordEncoder encoder;
     private final JwtService jwt;
+    private final AuthenticationManager authenticationManager;
 
     public String register(String email, String password) {
 
@@ -28,12 +32,12 @@ public class AuthService {
         return jwt.generate(email);
     }
 
-    public String login(String email, String password) {
-        AppUser user = repo.findByEmail(email).orElseThrow();
+    public AuthResponse login(String email, String password) {
 
-        if (!encoder.matches(password, user.getPassword()))
-            throw new RuntimeException("Bad credentials");
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password)
+        );
 
-        return jwt.generate(email);
+        return new AuthResponse(jwt.generate(email));
     }
 }

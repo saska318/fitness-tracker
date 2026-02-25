@@ -4,3 +4,25 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background: #f4f6f8;
 }
+
+.error-snackbar {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.error-snackbar .mdc-snackbar__surface {
+  background: #ff8f21 !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.25) !important;
+}
+
+.error-snackbar .mdc-snackbar__label {
+  color: #ffffff !important;
+  font-weight: 500;
+}
+
+.error-snackbar .mat-mdc-button {
+  color: #00e5ff !important;
+  font-weight: 560;
+}
