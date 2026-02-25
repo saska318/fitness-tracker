@@ -1,30 +1,29 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
+import {Router, RouterOutlet, NavigationEnd} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {Toolbar} from './shared/components/toolbar/toolbar';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,
-    MatToolbarModule,
-    MatButtonModule,
-    MatInputModule,
-    MatCardModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    ReactiveFormsModule,
-    HttpClientModule],
+    CommonModule,
+    Toolbar],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('fitness-tracker-ui');
+  private router = inject(Router);
+
+  showToolbar = false;
+
+  constructor() {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        const url = this.router.url;
+
+        this.showToolbar = !(url.includes('login') || url.includes('register'));
+      });
+  }
 }
