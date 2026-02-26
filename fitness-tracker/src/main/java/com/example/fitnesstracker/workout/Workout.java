@@ -32,6 +32,9 @@ public class Workout {
 
     private int feeling;
 
+    @Column(length = 1000)
+    private String notes;
+
     @Column(nullable = false)
     private LocalDateTime workoutDate;
 }

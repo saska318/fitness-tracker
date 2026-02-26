@@ -1,0 +1,148 @@
+.workout-page {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #c7e6e9 0%, #f5d4a5 100%);
+}
+
+.workout-card {
+  width: 100%;
+  max-width: 540px;
+  background: #f8f8f8;
+  border-radius: 18px;
+  padding: 32px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.10);
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.workout-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #ff8f21;
+  margin-bottom: 10px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 560;
+  color: #666;
+  margin-top: 6px;
+}
+
+.workout-card input,
+.workout-card select,
+.workout-card textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  color: #444;
+  background: #ffffff;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.06);
+  transition: 0.2s;
+}
+
+.workout-card input:focus,
+.workout-card select:focus,
+.workout-card textarea:focus {
+  outline: none;
+  border: 1px solid #ff8f21;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 28px;
+}
+
+.slider-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 28px;
+}
+
+.slider-box {
+  width: 100%;
+}
+
+.slider-value {
+  text-align: right;
+  font-weight: 600;
+  margin-top: -3px;
+  color: #444;
+}
+
+.workout-card * {
+  box-sizing: border-box;
+}
+
+input[type="range"] {
+  appearance: none;
+  height: 5px;
+  border-radius: 8px;
+  background: #e7e7e7;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #969696;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+input.intensity-slider::-webkit-slider-runnable-track {
+  background: linear-gradient(90deg, #33b2e5, #33b2e5) 0/var(--slider-progress, 50%) no-repeat,
+  #e7e7e7;
+}
+
+input.feeling-slider::-webkit-slider-runnable-track {
+  background: linear-gradient(90deg, #ff8f21, #ff8f21) 0/var(--slider-progress, 50%) no-repeat,
+  #e7e7e7;
+}
+
+.btn-save {
+  margin-top: 10px;
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 10px;
+  background: #ff8f21;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-save:hover {
+  background: #ffa94a;
+}
+
+.btn-save:disabled {
+  background: #cecece;
+  cursor: not-allowed;
+}

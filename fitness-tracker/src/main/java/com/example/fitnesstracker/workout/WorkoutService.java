@@ -1,7 +1,9 @@
 package com.example.fitnesstracker.workout;
 
+import com.example.fitnesstracker.auth.AppUserPrincipal;
 import com.example.fitnesstracker.user.AppUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,9 @@ public class WorkoutService {
 
     public void saveWorkout(WorkoutRequest request) {
 
-        AppUser user = (AppUser) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AppUserPrincipal principal = (AppUserPrincipal) auth.getPrincipal();
+        AppUser user = principal.getUser();
 
         Workout w = new Workout();
         w.setUser(user);

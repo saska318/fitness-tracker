@@ -35,24 +35,6 @@
   text-align: left;
 }
 
-input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-  background: white;
-  color: #333;
-  font-size: 14px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  transition: all 0.2s ease;
-}
-
-input:focus {
-  border: 1px solid #ff964b;
-  transform: scale(1.02);
-}
-
 .error {
   color: #ff4d4d;
   font-size: 12px;

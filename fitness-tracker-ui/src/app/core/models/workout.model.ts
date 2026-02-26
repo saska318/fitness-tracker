@@ -4,5 +4,6 @@ export interface Workout {
   calories: number;
   intensity: number;
   feeling: number;
+  notes: string;
   workoutDate: string;
 }

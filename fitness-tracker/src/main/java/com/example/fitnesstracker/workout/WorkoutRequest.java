@@ -8,5 +8,6 @@ public record WorkoutRequest(
         int calories,
         int intensity,
         int feeling,
+        String notes,
         LocalDateTime workoutDate
 ) {}

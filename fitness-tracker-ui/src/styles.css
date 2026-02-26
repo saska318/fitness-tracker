@@ -48,3 +48,62 @@ body {
   color: #ffffff !important;
   font-weight: 560;
 }
+
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: white;
+  color: #333333;
+  height: 22px;
+  font-size: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+input:focus {
+  border: 1px solid #ff964b;
+  transform: scale(1.02);
+}
+
+mat-slider {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.mat-mdc-slider .mdc-slider__track--active_fill {
+  border-color: #ff8f21 !important;
+}
+
+.mat-mdc-slider .mdc-slider__track--inactive {
+  background-color: #ffe0c2 !important;
+}
+
+.mat-mdc-slider .mdc-slider__thumb-knob {
+  background-color: #ff8f21 !important;
+  border-color: #ff8f21 !important;
+}
+
+.mat-mdc-slider .mdc-slider__thumb-knob:hover {
+  box-shadow: 0 0 0 6px rgba(255,143,33,0.15) !important;
+}
+
+.mat-mdc-slider {
+  --mdc-slider-handle-color: #ff8f21;
+  --mdc-slider-focus-handle-color: #ff8f21;
+  --mdc-slider-hover-handle-color: #ff8f21;
+
+  --mdc-slider-active-track-color: #ff8f21;
+  --mdc-slider-inactive-track-color: #ffd2a6;
+
+  --mdc-slider-with-tick-marks-active-container-color: #ff8f21;
+  --mdc-slider-with-tick-marks-inactive-container-color: #ffd2a6;
+
+  --mat-mdc-slider-ripple-color: rgba(255,143,33,0.2);
+}
+
+.mat-mdc-slider .mdc-slider__value-indicator {
+  background-color: #ff8f21 !important;
+  color: white !important;
+}

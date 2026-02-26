@@ -28,23 +28,24 @@ public class DataLoader implements CommandLineRunner {
         demoUser.setPassword(passwordEncoder.encode("123456"));
         userRepository.save(demoUser);
 
-        workoutRepository.save(createWorkout(demoUser, WorkoutType.CARDIO, 30, 4, 5, LocalDateTime.now().minusDays(1)));
-        workoutRepository.save(createWorkout(demoUser, WorkoutType.STRENGTH, 45, 5, 4, LocalDateTime.now().minusDays(2)));
-        workoutRepository.save(createWorkout(demoUser, WorkoutType.FLEXIBILITY, 25, 3, 5, LocalDateTime.now().minusDays(3)));
-        workoutRepository.save(createWorkout(demoUser, WorkoutType.CARDIO, 35, 4, 4, LocalDateTime.now().minusDays(5)));
-        workoutRepository.save(createWorkout(demoUser, WorkoutType.STRENGTH, 50, 5, 5, LocalDateTime.now().minusDays(7)));
+        workoutRepository.save(createWorkout(demoUser, WorkoutType.CARDIO, 350, 30, 4, 5, LocalDateTime.now().minusDays(1)));
+        workoutRepository.save(createWorkout(demoUser, WorkoutType.STRENGTH, 370, 45, 5, 4, LocalDateTime.now().minusDays(2)));
+        workoutRepository.save(createWorkout(demoUser, WorkoutType.FLEXIBILITY, 200, 25, 3, 5, LocalDateTime.now().minusDays(3)));
+        workoutRepository.save(createWorkout(demoUser, WorkoutType.CARDIO, 380, 35, 4, 4, LocalDateTime.now().minusDays(5)));
+        workoutRepository.save(createWorkout(demoUser, WorkoutType.STRENGTH, 340, 50, 5, 5, LocalDateTime.now().minusDays(7)));
 
         AppUser secondUser = new AppUser();
         secondUser.setEmail("demo@fit.com");
         secondUser.setPassword(passwordEncoder.encode("123456"));
         userRepository.save(secondUser);
 
-        workoutRepository.save(createWorkout(secondUser, WorkoutType.FLEXIBILITY, 20, 3, 4, LocalDateTime.now().minusDays(1)));
-        workoutRepository.save(createWorkout(secondUser, WorkoutType.CARDIO, 25, 3, 3, LocalDateTime.now().minusDays(4)));
+        workoutRepository.save(createWorkout(secondUser, WorkoutType.FLEXIBILITY, 230, 20, 3, 4, LocalDateTime.now().minusDays(1)));
+        workoutRepository.save(createWorkout(secondUser, WorkoutType.CARDIO, 400, 25, 3, 3, LocalDateTime.now().minusDays(4)));
     }
 
     private Workout createWorkout(AppUser user,
                                   WorkoutType type,
+                                  int calories,
                                   int duration,
                                   int intensity,
                                   int feeling,
@@ -53,6 +54,7 @@ public class DataLoader implements CommandLineRunner {
         Workout w = new Workout();
         w.setUser(user);
         w.setType(type);
+        w.setCalories(calories);
         w.setDurationMinutes(duration);
         w.setIntensity(intensity);
         w.setFeeling(feeling);
