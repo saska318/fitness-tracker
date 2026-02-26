@@ -7,11 +7,11 @@ body {
 
 .error-snackbar {
   padding: 0 !important;
-  margin: 0 !important;
+  margin: 30px !important;
 }
 
 .error-snackbar .mdc-snackbar__surface {
-  background: #ff8f21 !important;
+  background: #f32e2e !important;
   color: #ffffff !important;
   border-radius: 12px !important;
   box-shadow: 0 10px 28px rgba(0,0,0,0.25) !important;
@@ -23,6 +23,28 @@ body {
 }
 
 .error-snackbar .mat-mdc-button {
-  color: #00e5ff !important;
+  color: #ffffff !important;
+  font-weight: 560;
+}
+
+.success-snackbar {
+  padding: 0 !important;
+  margin: 30px !important;
+}
+
+.success-snackbar .mdc-snackbar__surface {
+  background: #45b458 !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.25) !important;
+}
+
+.success-snackbar .mdc-snackbar__label {
+  color: #ffffff !important;
+  font-weight: 500;
+}
+
+.success-snackbar .mat-mdc-button {
+  color: #ffffff !important;
   font-weight: 560;
 }

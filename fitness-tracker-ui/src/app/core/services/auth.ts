@@ -15,9 +15,10 @@ export class Auth {
     return this.http.post<{ token: string }>(this.base + '/login', data);
   }
 
-  register(data: any) {
-    return this.http.post(this.base + '/register', data)
-      .pipe(tap((res: any) => this.saveToken(res.token)));
+  register(data: { email: string; password: string }) {
+    return this.http.post<any>(this.base + '/register', data).pipe(
+      tap(res => this.saveToken(res.token))
+    );
   }
 
   saveToken(token: string) {

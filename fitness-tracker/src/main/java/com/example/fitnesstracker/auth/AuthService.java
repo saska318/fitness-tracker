@@ -1,5 +1,6 @@
 package com.example.fitnesstracker.auth;
 
+import com.example.fitnesstracker.auth.exception.UserAlreadyExistsException;
 import com.example.fitnesstracker.user.AppUser;
 import com.example.fitnesstracker.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,10 @@ public class AuthService {
     private final JwtService jwt;
     private final AuthenticationManager authenticationManager;
 
-    public String register(String email, String password) {
+    public AuthResponse register(String email, String password) {
 
         if (repo.findByEmail(email).isPresent()) {
-            throw new RuntimeException("User already exists");
+            throw new UserAlreadyExistsException();
         }
 
         AppUser user = new AppUser();
@@ -29,7 +30,9 @@ public class AuthService {
         user.setPassword(encoder.encode(password));
         repo.save(user);
 
-        return jwt.generate(email);
+        String token = jwt.generate(email);
+
+        return new AuthResponse(token);
     }
 
     public AuthResponse login(String email, String password) {

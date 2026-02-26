@@ -63,7 +63,7 @@ export class Login implements OnInit{
           this.snack.open('Invalid email or password', 'Close', {
             duration: 3000,
             horizontalPosition: 'center',
-            verticalPosition: 'top',
+            verticalPosition: 'bottom',
             panelClass: ['error-snackbar']
           });
         }
