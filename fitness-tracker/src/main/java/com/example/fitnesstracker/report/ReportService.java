@@ -1,9 +1,12 @@
 package com.example.fitnesstracker.report;
 
+import com.example.fitnesstracker.auth.AppUserPrincipal;
 import com.example.fitnesstracker.user.AppUser;
+import com.example.fitnesstracker.user.UserRepository;
 import com.example.fitnesstracker.workout.Workout;
 import com.example.fitnesstracker.workout.WorkoutRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +20,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ReportService {
     private final WorkoutRepository workoutRepo;
+    private final UserRepository appUserRepository;
 
     public List<WeeklyReportDto> getMonthlyReport(int year, int month) {
 
-        AppUser user = (AppUser) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AppUserPrincipal principal = (AppUserPrincipal) auth.getPrincipal();
+
+        String email = principal.getUsername();
+        AppUser user = appUserRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         LocalDateTime start = LocalDate.of(year, month, 1).atStartOfDay();
         LocalDateTime end = start.plusMonths(1);
