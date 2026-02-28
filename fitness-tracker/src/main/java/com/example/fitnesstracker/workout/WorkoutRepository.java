@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface WorkoutRepository extends JpaRepository<Workout, Long> {
 
-    List<Workout> findByUser(AppUser user);
-
     List<Workout> findByUserAndWorkoutDateBetween(
             AppUser user,
             LocalDateTime start,

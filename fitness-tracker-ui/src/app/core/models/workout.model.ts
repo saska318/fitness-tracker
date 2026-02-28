@@ -1,4 +1,4 @@
-export interface Workout {
+export interface WorkoutModel {
   type: 'CARDIO' | 'STRENGTH' | 'FLEXIBILITY';
   durationMinutes: number;
   calories: number;

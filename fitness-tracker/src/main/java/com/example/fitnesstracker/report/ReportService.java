@@ -6,7 +6,6 @@ import com.example.fitnesstracker.user.UserRepository;
 import com.example.fitnesstracker.workout.Workout;
 import com.example.fitnesstracker.workout.WorkoutRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -23,57 +22,52 @@ public class ReportService {
     private final UserRepository appUserRepository;
 
     public List<WeeklyReportDto> getMonthlyReport(int year, int month) {
+        AppUser user = getAuthenticatedUser();
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        AppUserPrincipal principal = (AppUserPrincipal) auth.getPrincipal();
+        List<Workout> workouts = getWorkoutsForMonth(user, year, month);
 
-        String email = principal.getUsername();
-        AppUser user = appUserRepository.findByEmail(email)
+        return workouts.stream()
+                .collect(Collectors.groupingBy(this::getWeekOfMonth))
+                .entrySet()
+                .stream()
+                .map(entry -> createWeeklyReport(entry.getKey(), entry.getValue()))
+                .sorted(Comparator.comparingInt(WeeklyReportDto::weekNumber))
+                .toList();
+    }
+
+    private AppUser getAuthenticatedUser() {
+        var principal = (AppUserPrincipal) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+
+        return appUserRepository.findByEmail(principal.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 
+    private List<Workout> getWorkoutsForMonth(AppUser user, int year, int month) {
         LocalDateTime start = LocalDate.of(year, month, 1).atStartOfDay();
         LocalDateTime end = start.plusMonths(1);
 
-        List<Workout> workouts =
-                workoutRepo.findByUserAndWorkoutDateBetween(user, start, end);
+        return workoutRepo.findByUserAndWorkoutDateBetween(user, start, end);
+    }
 
-        WeekFields weekFields = WeekFields.ISO;
+    private int getWeekOfMonth(Workout w) {
+        return w.getWorkoutDate().get(WeekFields.ISO.weekOfMonth());
+    }
 
-        Map<Integer, List<Workout>> grouped =
-                workouts.stream()
-                        .collect(Collectors.groupingBy(w ->
-                                w.getWorkoutDate()
-                                        .get(weekFields.weekOfMonth())
-                        ));
+    private WeeklyReportDto createWeeklyReport(int week, List<Workout> workouts) {
+        long count = workouts.size();
+        int totalDuration = workouts.stream()
+                .mapToInt(Workout::getDurationMinutes)
+                .sum();
+        double avgIntensity = workouts.stream()
+                .mapToInt(Workout::getIntensity)
+                .average()
+                .orElse(0);
+        double avgFeeling = workouts.stream()
+                .mapToInt(Workout::getFeeling)
+                .average()
+                .orElse(0);
 
-        List<WeeklyReportDto> result = new ArrayList<>();
-
-        for (Map.Entry<Integer, List<Workout>> entry : grouped.entrySet()) {
-
-            int week = entry.getKey();
-            List<Workout> ws = entry.getValue();
-
-            long count = ws.size();
-
-            int totalDuration = ws.stream()
-                    .mapToInt(Workout::getDurationMinutes)
-                    .sum();
-
-            double avgIntensity = ws.stream()
-                    .mapToInt(Workout::getIntensity)
-                    .average().orElse(0);
-
-            double avgFeeling = ws.stream()
-                    .mapToInt(Workout::getFeeling)
-                    .average().orElse(0);
-
-            result.add(new WeeklyReportDto(
-                    week, count, totalDuration, avgIntensity, avgFeeling
-            ));
-        }
-
-        result.sort(Comparator.comparingInt(WeeklyReportDto::weekNumber));
-
-        return result;
+        return new WeeklyReportDto(week, count, totalDuration, avgIntensity, avgFeeling);
     }
 }

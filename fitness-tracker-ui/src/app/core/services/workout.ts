@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {WorkoutModel} from '../models/workout.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ export class Workout {
 
   constructor(private http: HttpClient) {}
 
-  save(workout: any) {
+  save(workout: WorkoutModel) {
     return this.http.post(this.base, workout);
   }
 }

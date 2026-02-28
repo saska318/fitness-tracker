@@ -4,7 +4,6 @@ import com.example.fitnesstracker.auth.exception.UserAlreadyExistsException;
 import com.example.fitnesstracker.user.AppUser;
 import com.example.fitnesstracker.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;

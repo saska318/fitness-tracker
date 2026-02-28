@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -13,7 +13,7 @@ import { WeeklyReport } from '../../../core/models/weekly-report.model';
 import { Report } from '../../../core/services/report';
 
 import { Chart, registerables } from 'chart.js';
-import moment, { Moment } from 'moment';
+import { Moment } from 'moment';
 
 Chart.register(...registerables);
 
@@ -48,13 +48,14 @@ export const MONTH_YEAR_FORMATS = {
   templateUrl: './report-view.html',
   styleUrls: ['./report-view.css'],
 })
-export class ReportView implements OnInit {
+export class ReportView implements AfterViewChecked {
 
   @ViewChild('workoutChart') workoutChartRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('intensityChart') intensityChartRef!: ElementRef<HTMLCanvasElement>;
 
   private workoutChart?: Chart;
   private intensityChart?: Chart;
+  private shouldBuildCharts = false;
 
   monthControl = new FormControl<Moment | null>(null);
 
@@ -69,19 +70,26 @@ export class ReportView implements OnInit {
     this.dateAdapter.setLocale('en-GB');
   }
 
-  ngOnInit() {}
-
   loadReport(date: Moment) {
     const year = date.year();
     const month = date.month() + 1;
 
     this.loading = true;
 
+    this.workoutChart?.destroy();
+    this.intensityChart?.destroy();
+
+    this.workoutChart = undefined;
+    this.intensityChart = undefined;
+
+    this.report = [];
+    this.shouldBuildCharts = false;
+
     this.service.getMonthly(year, month).subscribe(res => {
       this.report = res;
       this.loading = false;
 
-      setTimeout(() => this.buildCharts());
+      this.shouldBuildCharts = true;
     });
   }
 
@@ -93,6 +101,13 @@ export class ReportView implements OnInit {
 
     datepicker.close();
     this.loadReport(selected);
+  }
+
+  ngAfterViewChecked() {
+    if (this.shouldBuildCharts && this.workoutChartRef && this.intensityChartRef) {
+      this.shouldBuildCharts = false;
+      this.buildCharts();
+    }
   }
 
   buildCharts() {
