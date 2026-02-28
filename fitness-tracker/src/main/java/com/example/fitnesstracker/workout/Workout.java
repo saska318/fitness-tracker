@@ -13,18 +13,28 @@ import java.time.LocalDateTime;
 public class Workout {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id")
     private AppUser user;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private WorkoutType type;
 
+    private int calories;
+
     private int durationMinutes;
+
     private int intensity;
+
     private int feeling;
 
+    @Column(length = 1000)
+    private String notes;
+
+    @Column(nullable = false)
     private LocalDateTime workoutDate;
 }

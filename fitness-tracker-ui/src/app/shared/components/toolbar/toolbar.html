@@ -1,0 +1,17 @@
+<mat-toolbar class="app-toolbar">
+
+  <div class="logo-section" routerLink="/workout">
+    <img src="/logo.png" class="logo-image" alt="FitnessTracker logo">
+    <span class="logo-text">FitnessTracker</span>
+  </div>
+
+  <span class="spacer"></span>
+
+  <button mat-button routerLink="/workout">Workouts</button>
+  <button mat-button routerLink="/reports">Reports</button>
+
+  <button mat-raised-button color="accent" (click)="logout()">
+    Logout
+  </button>
+
+</mat-toolbar>

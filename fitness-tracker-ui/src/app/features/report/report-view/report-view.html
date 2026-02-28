@@ -1,0 +1,64 @@
+<div class="report-page">
+  <div class="report-card">
+
+    <h2>Monthly Workout Report</h2>
+
+    <mat-form-field appearance="outline" class="month-field">
+      <mat-label>Select month</mat-label>
+
+      <input matInput
+             [matDatepicker]="picker"
+             [formControl]="monthControl"
+             readonly>
+
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+
+      <mat-datepicker #picker
+                      startView="multi-year"
+                      (monthSelected)="chosenMonthHandler($event, picker)"
+                      panelClass="month-picker">
+      </mat-datepicker>
+    </mat-form-field>
+
+    <table *ngIf="report.length > 0">
+      <thead>
+      <tr>
+        <th>Week</th>
+        <th>Workouts</th>
+        <th>Total Duration</th>
+        <th>Avg Intensity</th>
+        <th>Avg Fatigue</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let w of report">
+        <td>Week {{ w.weekNumber }}</td>
+        <td>{{ w.totalWorkouts }}</td>
+        <td>{{ w.totalDuration }} min</td>
+        <td>{{ w.avgIntensity | number:'1.1-1' }}</td>
+        <td>{{ w.avgFeeling | number:'1.1-1' }}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="report.length" class="charts-row">
+      <div class="chart-box">
+        <canvas #workoutChart></canvas>
+      </div>
+
+      <div class="chart-box">
+        <canvas #intensityChart></canvas>
+      </div>
+    </div>
+
+    <p *ngIf="!hasSelectedMonth" class="empty">
+      Please select a month to see the report.
+    </p>
+
+    <p *ngIf="hasSelectedMonth && !loading && report.length === 0" class="empty">
+      No workouts for this month.
+    </p>
+
+  </div>
+</div>

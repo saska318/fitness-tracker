@@ -1,0 +1,102 @@
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #c7e6e9 0%, #f5d4a5 100%);
+}
+
+.auth-card {
+  background: #f8f8f8;
+  padding: 40px;
+  border-radius: 16px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.auth-logo {
+  width: 200px;
+  margin-bottom: 16px;
+}
+
+.auth-title {
+  color: #ff8f21;
+  margin-bottom: 25px;
+  margin-top: 5px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  padding-right: 26px;
+  text-align: left;
+}
+
+.error {
+  color: #ff4d4d;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.btn-login {
+  height: 45px;
+  font-size: 16px;
+  width: 100%;
+  background: #ff8f21;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  color: white;
+}
+
+.btn-login:hover {
+  background: #ffad4c;
+}
+
+.btn-login:disabled {
+  background: #cecece;
+  cursor: not-allowed;
+}
+
+.switch-text {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.switch-text a {
+  color: #00bcd4;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.switch-text a:hover {
+  text-decoration: underline;
+}
+
+.password-group {
+  position: relative;
+}
+
+.eye-btn {
+  position: absolute;
+  right: 14px;
+  top: 25px;
+  transform: translateY(-70%);
+  cursor: pointer;
+  color: #777;
+  font-size: 22px;
+}
+
+.eye-btn:hover {
+  color: #ff964b;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,77 @@
+<div class="workout-page">
+  <div class="workout-card">
+
+    <h2 class="workout-title">Add New Workout</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="form-group">
+        <label>Workout Type</label>
+        <select formControlName="type" class="styled-input">
+          <option value="CARDIO">Cardio</option>
+          <option value="STRENGTH">Strength</option>
+          <option value="FLEXIBILITY">Flexibility</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label>Duration (minutes)</label>
+          <input type="number"
+                 formControlName="durationMinutes"
+                 placeholder="Enter duration">
+        </div>
+
+        <div class="form-group">
+          <label>Calories Burned</label>
+          <input type="number"
+                 formControlName="calories"
+                 placeholder="Enter calories">
+        </div>
+      </div>
+
+      <div class="slider-group">
+
+        <div class="slider-box">
+          <label>Intensity: {{ form.get('intensity')?.value }}</label>
+
+          <mat-slider min="1" max="10" step="1" discrete>
+            <input
+              matSliderThumb
+              [value]="form.get('intensity')?.value"
+              (input)="form.get('intensity')?.setValue($any($event.target).value)">
+          </mat-slider>
+        </div>
+
+        <div class="slider-box">
+          <label>Feeling: {{ form.get('feeling')?.value }}</label>
+
+          <mat-slider min="1" max="10" step="1" discrete>
+            <input
+              matSliderThumb
+              [value]="form.get('feeling')?.value"
+              (input)="form.get('feeling')?.setValue($any($event.target).value)">
+          </mat-slider>
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <label>Additional Notes (optional)</label>
+        <textarea formControlName="notes"
+                  placeholder="How did the workout feel?"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Date & Time</label>
+        <input type="datetime-local"
+               (change)="form.patchValue({workoutDate:$any($event.target).value})">
+      </div>
+
+      <button class="btn-save" [disabled]="form.invalid">
+        Save Workout
+      </button>
+
+    </form>
+  </div>
+</div>
