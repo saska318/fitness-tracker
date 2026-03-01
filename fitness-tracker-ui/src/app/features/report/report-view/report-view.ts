@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, ElementRef, ViewChild, ChangeDetectorRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -48,14 +48,13 @@ export const MONTH_YEAR_FORMATS = {
   templateUrl: './report-view.html',
   styleUrls: ['./report-view.css'],
 })
-export class ReportView implements AfterViewChecked {
+export class ReportView {
 
   @ViewChild('workoutChart') workoutChartRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('intensityChart') intensityChartRef!: ElementRef<HTMLCanvasElement>;
 
   private workoutChart?: Chart;
   private intensityChart?: Chart;
-  private shouldBuildCharts = false;
 
   monthControl = new FormControl<Moment | null>(null);
 
@@ -65,12 +64,21 @@ export class ReportView implements AfterViewChecked {
 
   constructor(
     private service: Report,
-    private dateAdapter: DateAdapter<Moment>
+    private dateAdapter: DateAdapter<Moment>,
+    private cdr: ChangeDetectorRef
   ) {
     this.dateAdapter.setLocale('en-GB');
   }
 
-  loadReport(date: Moment) {
+  loadSelectedMonth() {
+    const date = this.monthControl.value;
+    if (!date) return;
+
+    this.hasSelectedMonth = true;
+    this.fetchReport(date);
+  }
+
+  fetchReport(date: Moment) {
     const year = date.year();
     const month = date.month() + 1;
 
@@ -83,35 +91,33 @@ export class ReportView implements AfterViewChecked {
     this.intensityChart = undefined;
 
     this.report = [];
-    this.shouldBuildCharts = false;
+    this.cdr.detectChanges();
 
     this.service.getMonthly(year, month).subscribe(res => {
       this.report = res;
       this.loading = false;
 
-      this.shouldBuildCharts = true;
+      this.cdr.detectChanges();
+
+      if (!this.report.length) return;
+
+      requestAnimationFrame(() => {
+        this.buildCharts();
+      });
     });
   }
 
-  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+  onMonthSelected(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
     const selected = normalizedMonth.clone().startOf('month');
 
     this.monthControl.setValue(selected);
-    this.hasSelectedMonth = true;
+    this.hasSelectedMonth = false;
 
     datepicker.close();
-    this.loadReport(selected);
-  }
-
-  ngAfterViewChecked() {
-    if (this.shouldBuildCharts && this.workoutChartRef && this.intensityChartRef) {
-      this.shouldBuildCharts = false;
-      this.buildCharts();
-    }
   }
 
   buildCharts() {
-    if (!this.report.length) return;
+    if (!this.workoutChartRef || !this.intensityChartRef) return;
 
     const labels = this.report.map(w => `Week ${w.weekNumber}`);
     const workoutCounts = this.report.map(w => w.totalWorkouts);
