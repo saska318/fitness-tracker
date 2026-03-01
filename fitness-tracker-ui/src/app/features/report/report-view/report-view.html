@@ -15,10 +15,19 @@
 
       <mat-datepicker #picker
                       startView="multi-year"
-                      (monthSelected)="chosenMonthHandler($event, picker)"
+                      (monthSelected)="onMonthSelected($event, picker)"
                       panelClass="month-picker">
       </mat-datepicker>
     </mat-form-field>
+
+    <div class="load-btn-wrapper">
+      <button type="button"
+              class="btn-load-report"
+              (click)="loadSelectedMonth()"
+              [disabled]="!monthControl.value">
+        Load report
+      </button>
+    </div>
 
     <table *ngIf="report.length > 0">
       <thead>
@@ -42,7 +51,7 @@
       </tbody>
     </table>
 
-    <div *ngIf="report.length" class="charts-row">
+    <div class="charts-row" [style.display]="report.length ? 'flex' : 'none'">
       <div class="chart-box">
         <canvas #workoutChart></canvas>
       </div>
@@ -53,7 +62,7 @@
     </div>
 
     <p *ngIf="!hasSelectedMonth" class="empty">
-      Please select a month to see the report.
+      Please select a month and click the button to view the report.
     </p>
 
     <p *ngIf="hasSelectedMonth && !loading && report.length === 0" class="empty">

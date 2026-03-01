@@ -24,6 +24,42 @@ h2 {
   color: #ff8f21;
 }
 
+.month-field {
+  width: 520px;
+  display: block;
+  margin: 0 auto;
+}
+
+.load-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.btn-load-report {
+  height: 44px;
+  padding: 0 26px;
+  font-size: 15px;
+  background: #ff8f21;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+  color: white;
+  width: auto;
+  min-width: 150px;
+}
+
+.btn-load-report:hover {
+  background: #ffad4c;
+}
+
+.btn-load-report:disabled {
+  background: #cecece;
+  cursor: not-allowed;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
